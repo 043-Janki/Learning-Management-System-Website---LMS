@@ -11,6 +11,7 @@ export const AppContextProvider = (props) => {
 
   const [allCourses, setAllCourses] = useState([]);
   const [isEducator, setIsEducator] = useState(true);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
   // Fetch all courses
   const fetchAllCourses = async () => {
@@ -48,7 +49,7 @@ export const AppContextProvider = (props) => {
 
   // Function to Calculate the total number of lectures in the course
   const calculateNoOfLectures = (course) => {
-    let courseLectures = 0;
+    let totalLectures = 0;
     course.courseContent.forEach((chapter) => {
       if (Array.isArray(chapter.chapterContent)) {
         totalLectures += chapter.chapterContent.length;
@@ -57,8 +58,14 @@ export const AppContextProvider = (props) => {
     return totalLectures;
   };
 
+  // Fetch
+  const fetchUserEnrolledCourse = async() => {
+    setEnrolledCourses(dummyCourses)
+  }
+
   useEffect(() => {
-    fetchAllCourses();
+    fetchAllCourses()
+    fetchUserEnrolledCourse();
   }, []);
 
   const value = {
@@ -71,6 +78,8 @@ export const AppContextProvider = (props) => {
     calculateNoOfLectures,
     calculateCourseDuration,
     calculateChapterTime,
+    enrolledCourses,
+    fetchUserEnrolledCourse
   };
 
   return (
